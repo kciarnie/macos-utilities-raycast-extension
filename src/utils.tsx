@@ -5,7 +5,6 @@ import { execSync } from "child_process";
 
 export const backupLocation = "/tmp/terminal-history-backup.file.txt";
 
-
 /// Parse the shell history file
 /// - Parameter string: The string to parse
 /// - Returns: An array of commands
@@ -36,11 +35,9 @@ export function shellHistoryPath() {
     if (fs.existsSync(zshHistoryPath)) {
         return zshHistoryPath;
     }
-
     if (fs.existsSync(bashHistoryPath)) {
         return bashHistoryPath;
     }
-
     return null;
 }
 
