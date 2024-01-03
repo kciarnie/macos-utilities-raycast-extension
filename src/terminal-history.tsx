@@ -50,19 +50,19 @@ export default function Command() {
                   shortcut={{ modifiers: ["cmd"], key: "c" }}
                 />
                 <Action.CopyToClipboard
-                  title="Copy Ray.so site"
+                  title="Copy Ray.so link"
                   content={createRaySoLink(command)}
                   shortcut={{ modifiers: ["cmd", "shift"], key: "c" }}
                 />
                 <Action.OpenInBrowser
-                  title="Open Ray.so site"
+                  title="Open in Ray.so"
                   url={createRaySoLink(command)}
                   shortcut={{ modifiers: ["cmd"], key: "o" }}
                 />
               </ActionPanel.Section>
               <ActionPanel.Section>
                 <Action
-                  title="Delete History"
+                  title="Clear"
                   shortcut={{ modifiers: ["cmd"], key: "d" }}
                   icon={{ source: Icon.Trash }}
                   style={Action.Style.Destructive}
@@ -123,8 +123,8 @@ export default function Command() {
   function RestoreHistoryPanel() {
     return (
       <Action
-        title="Restore History"
-        icon={{ source: Icon.Pencil }}
+        title="Restore"
+        icon={{ source: Icon.Redo }}
         shortcut={{ modifiers: ["cmd", "shift"], key: "r" }}
         onAction={onRestorePressed}
       />
