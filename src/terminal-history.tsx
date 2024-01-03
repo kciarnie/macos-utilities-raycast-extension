@@ -14,7 +14,6 @@ export function parseShellHistory(string: string) {
 
   return string.trim().split('\n').map(line => {
     if (reBashHistory.test(line)) {
-      console.log(line);
       return line.split(';').slice(1).join(';');
     }
 
