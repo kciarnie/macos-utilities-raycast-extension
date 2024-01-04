@@ -43,34 +43,33 @@ export default function Command() {
           accessories={[{ text: { value: `${length - index + 1}`, color: Color.PrimaryText } }]}
           actions={
             <ActionPanel>
-              <Action.CopyToClipboard
-                title="Copy Command"
-                content={command}
-                shortcut={{ modifiers: ["cmd"], key: "c" }}
-              />
-              <Action.CopyToClipboard
-                title="Copy Ray.so site"
-                content={createRaySoLink(command)}
-                shortcut={{ modifiers: ["cmd", "shift"], key: "c" }}
-              />
-              <Action.OpenInBrowser
-                title="Open Ray.so site"
-                url={createRaySoLink(command)}
-                shortcut={{ modifiers: ["cmd"], key: "o" }}
-              />
-              <Action
-                title="Delete History"
-                shortcut={{ modifiers: ["cmd"], key: "d" }}
-                style={Action.Style.Destructive}
-                onAction={onDeletePressed}
-              />
-              <Action
-                title="Backup History"
-                icon={{ source: Icon.CopyClipboard }}
-                shortcut={{ modifiers: ["cmd"], key: "b" }}
-                onAction={onBackupPressed}
-              />
-              <RestoreHistoryPanel />
+              <ActionPanel.Section>
+                <Action.CopyToClipboard
+                  title="Copy Command"
+                  content={command}
+                  shortcut={{ modifiers: ["cmd"], key: "c" }}
+                />
+                <Action.CopyToClipboard
+                  title="Copy Ray.so link"
+                  content={createRaySoLink(command)}
+                  shortcut={{ modifiers: ["cmd", "shift"], key: "c" }}
+                />
+                <Action.OpenInBrowser
+                  title="Open in Ray.so"
+                  url={createRaySoLink(command)}
+                  shortcut={{ modifiers: ["cmd"], key: "o" }}
+                />
+              </ActionPanel.Section>
+              <ActionPanel.Section>
+                <Action
+                  title="Clear"
+                  shortcut={{ modifiers: ["cmd"], key: "d" }}
+                  icon={{ source: Icon.Trash }}
+                  style={Action.Style.Destructive}
+                  onAction={onDeletePressed}
+                />
+                <RestoreHistoryPanel />
+              </ActionPanel.Section>
             </ActionPanel>
           }
         />
@@ -105,12 +104,6 @@ export default function Command() {
     });
   }
 
-  /// On backup pressed action
-  function onBackupPressed() {
-    saveFile();
-    setLoading(true);
-  }
-
   /// On restore pressed action
   function onRestorePressed() {
     confirmAlert({
@@ -130,8 +123,8 @@ export default function Command() {
   function RestoreHistoryPanel() {
     return (
       <Action
-        title="Restore History"
-        icon={{ source: Icon.Pencil }}
+        title="Restore"
+        icon={{ source: Icon.Redo }}
         shortcut={{ modifiers: ["cmd", "shift"], key: "r" }}
         onAction={onRestorePressed}
       />
