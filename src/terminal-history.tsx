@@ -1,17 +1,7 @@
 import { execSync } from "child_process";
-import {
-  ActionPanel,
-  Action,
-  Alert,
-  Cache,
-  Color,
-  confirmAlert,
-  Icon,
-  List
-} from "@raycast/api";
+import { ActionPanel, Action, Alert, Cache, Color, confirmAlert, Icon, List } from "@raycast/api";
 import { useEffect, useState } from "react";
 import { shellHistory, shellHistoryPath } from "shell-history";
-import { useExec } from "@raycast/utils";
 
 const backupLocation = "/tmp/terminal-history-backup.file.txt";
 const cache = new Cache();
@@ -117,12 +107,14 @@ export default function Command() {
   // The restore history panel
   function RestoreHistoryPanel() {
     return (
-      cache.get(pathKey) && <Action
-        title="Restore"
-        icon={{ source: Icon.Redo }}
-        shortcut={{ modifiers: ["cmd", "shift"], key: "r" }}
-        onAction={onRestorePressed}
-      />
+      cache.get(pathKey) && (
+        <Action
+          title="Restore"
+          icon={{ source: Icon.Redo }}
+          shortcut={{ modifiers: ["cmd", "shift"], key: "r" }}
+          onAction={onRestorePressed}
+        />
+      )
     );
   }
 }
