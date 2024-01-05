@@ -70,8 +70,8 @@ export default function Command() {
         />
       ))}
       <List.EmptyView
-        icon={{ source: "https://placekitten.com/500/500" }}
-        title="You have no history. Run some commands to see them here."
+        icon={{ source: Icon.Terminal }}
+        title="You have no history. Run some commands, here."
         actions={
           <ActionPanel>
             <RestoreHistoryPanel />
