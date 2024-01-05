@@ -68,7 +68,7 @@ export function createRaySoLink(command: string): string {
   try {
     // eslint-disable-next-line no-undef
     const decodedString = btoa(command);
-    return `https://ray.so/#language=shell&code=${decodedString}&padding=16&title=Terminal+History+Command&darkMode=true&background=true&theme=raindrop`;
+    return `https://ray.so/#language=shell&code=${decodedString}`;
   } catch (error) {
     console.log(`Error parsing: ${command}`);
     return "";
