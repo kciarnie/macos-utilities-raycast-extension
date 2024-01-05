@@ -11,6 +11,7 @@ import {
 } from "@raycast/api";
 import { useEffect, useState } from "react";
 import { shellHistory, shellHistoryPath } from "shell-history";
+import { useExec } from "@raycast/utils";
 
 const backupLocation = "/tmp/terminal-history-backup.file.txt";
 const cache = new Cache();
@@ -26,8 +27,6 @@ export default function Command() {
     setLoading(false);
   }, [isLoading]);
 
-  const length = history.length;
-
   return (
     <List isLoading={isLoading} searchBarPlaceholder="Filter commands by name...">
       {history.reverse().map((command, index) => (
@@ -35,7 +34,7 @@ export default function Command() {
           key={index}
           title={`${command}`}
           icon={{ source: Icon.Terminal, tintColor: Color.Green }}
-          accessories={[{ text: { value: `${length - index + 1} `, color: Color.PrimaryText } }]}
+          accessories={[{ text: { value: `${history.length - index + 1} `, color: Color.PrimaryText } }]}
           actions={
             <ActionPanel>
               <ActionPanel.Section>
@@ -118,7 +117,7 @@ export default function Command() {
   // The restore history panel
   function RestoreHistoryPanel() {
     return (
-      <Action
+      cache.get(pathKey) && <Action
         title="Restore"
         icon={{ source: Icon.Redo }}
         shortcut={{ modifiers: ["cmd", "shift"], key: "r" }}
@@ -131,7 +130,6 @@ export default function Command() {
 /// Restore the history file from a backup location
 function restore() {
   const cachedPath = cache.get(pathKey);
-  console.log(`cp ${backupLocation} ${cachedPath}`);
   execSync(`cp ${backupLocation} ${cachedPath}`);
 }
 
@@ -139,7 +137,6 @@ function restore() {
 function save() {
   const path = shellHistoryPath() ?? "";
   cache.set(pathKey, path);
-  console.log(`cp ${path} ${backupLocation}`);
   execSync(`cp ${path} ${backupLocation}`);
 }
 /// Create a ray.so link
