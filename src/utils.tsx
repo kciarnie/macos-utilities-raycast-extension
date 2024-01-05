@@ -13,7 +13,7 @@ export function getHistory() {
 export function restoreHistory() {
   console.log(`cp ${backupLocation} ~/.zsh_history`);
   execSync(`cp ${backupLocation} ~/.zsh_history`);
-  getHistory();
+  // getHistory();
 }
 
 /// Save the history file to a backup location

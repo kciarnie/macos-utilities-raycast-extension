@@ -9,47 +9,22 @@ import { read, readFile } from "fs";
 
 let history: string[] = [];
 
-export async function prepareHistory() {
-  const path = shellHistoryPath() ?? "";
-  console.log(`${path}`);
-  return await readFile(path, (err, data) => {
-    if (err) {
-      console.log(err);
-      return err;
-    }
-    console.log(data.toString());
-    history = data.toString().split("\n");
-  });
-}
 
 export default function Command() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const path = shellHistoryPath() ?? "";
+    if (path) {
+      history = getHistory();
+    }
     setLoading(false);
   }, [loading]);
 
-  const history = shellHistory() || [];
   const length = history.length;
 
-  if (length === 0) {
-    return (
-      <List>
-        <List.EmptyView
-          icon={{ source: "https://placekitten.com/500/500" }}
-          title="You have no history. Run some commands to see them here."
-          actions={
-            <ActionPanel>
-              <RestoreHistoryPanel />
-            </ActionPanel>
-          }
-        />
-      </List>
-    );
-  }
-
   return (
-    <List searchBarPlaceholder="Filter commands by name...">
+    <List isLoading={loading} searchBarPlaceholder="Filter commands by name...">
       {history.reverse().map((command, index) => (
         <List.Item
           key={index}
@@ -89,6 +64,15 @@ export default function Command() {
           }
         />
       ))}
+      <List.EmptyView
+        icon={{ source: "https://placekitten.com/500/500" }}
+        title="You have no history. Run some commands to see them here."
+        actions={
+          <ActionPanel>
+            <RestoreHistoryPanel />
+          </ActionPanel>
+        }
+      />
     </List>
   );
 
@@ -113,7 +97,7 @@ export default function Command() {
           showHUD("Shell not supported");
           return;
         }
-        execSync("history -c");
+        // execSync("history -c");
         setLoading(true);
       }
     });
