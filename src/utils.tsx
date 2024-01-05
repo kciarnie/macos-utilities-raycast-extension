@@ -1,51 +1,12 @@
-import fs from "fs";
-import os from "os";
-import path from "path";
 import { execSync } from "child_process";
+import { shellHistory, shellHistoryPath } from "shell-history";
 
 export const backupLocation = "/tmp/terminal-history-backup.file.txt";
-
-/// Parse the shell history file
-/// - Parameter string: The string to parse
-/// - Returns: An array of commands
-export function parseShellHistory(string: string) {
-  const reBashHistory = /^: \d+:0;/;
-
-  return string
-    .trim()
-    .split("\n")
-    .map((line) => {
-      if (reBashHistory.test(line)) {
-        const lines = line.split(";").slice(1).join(";");
-        // Remove duplicates and return
-        return [...new Set(lines.split(":"))].join(":");
-      }
-
-      // ZSH just places one command on each line
-      return line;
-    });
-}
-
-/// Get the path to the shell history file
-/// - Returns: The path to the shell history file
-export function shellHistoryPath() {
-  const zshHistoryPath = path.join(os.homedir(), ".zsh_history");
-  const bashHistoryPath = path.join(os.homedir(), ".bash_history");
-
-  if (fs.existsSync(zshHistoryPath)) {
-    return zshHistoryPath;
-  }
-  if (fs.existsSync(bashHistoryPath)) {
-    return bashHistoryPath;
-  }
-  return null;
-}
 
 /// Get the shell history
 /// - Returns: An array of commands
 export function getHistory() {
-  const historyPath = shellHistoryPath();
-  return historyPath ? parseShellHistory(fs.readFileSync(historyPath).toString()) : [];
+  return shellHistory() || [];
 }
 
 /// Restore the history file from a backup location

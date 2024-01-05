@@ -3,8 +3,24 @@ import { useEffect, useState } from "react";
 import { execSync } from "child_process";
 import os from "os";
 import { createRaySoLink, getHistory, restoreHistory, saveFile } from "./utils";
+import { shellHistory, shellHistoryPath } from "shell-history";
+import { read, readFile } from "fs";
+
 
 let history: string[] = [];
+
+export async function prepareHistory() {
+  const path = shellHistoryPath() ?? "";
+  console.log(`${path}`);
+  return await readFile(path, (err, data) => {
+    if (err) {
+      console.log(err);
+      return err;
+    }
+    console.log(data.toString());
+    history = data.toString().split("\n");
+  });
+}
 
 export default function Command() {
   const [loading, setLoading] = useState(true);
@@ -13,8 +29,7 @@ export default function Command() {
     setLoading(false);
   }, [loading]);
 
-  history = getHistory();
-
+  const history = shellHistory() || [];
   const length = history.length;
 
   if (length === 0) {
