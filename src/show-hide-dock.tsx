@@ -28,7 +28,6 @@ class ShowDockMode {
 
       await runAppleScript(`tell application "System Events" to set the autohide of the dock preferences to ${result}`);
       await showHUD(message);
-
     } catch (error) {
       if (error instanceof Error) {
         if (!error.message.includes("-128")) {

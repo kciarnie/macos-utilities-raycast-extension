@@ -14,8 +14,7 @@
   "commands": [
     {
       "name": "show-hide-dock",
-      "title": "Show/Hide Dock",
-      "icon": "command-icon.png",
+      "title": "Toggle Dock",
       "description": "Show or hide the dock",
       "mode": "no-view"
     },
